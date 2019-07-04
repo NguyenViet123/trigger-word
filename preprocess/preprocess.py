@@ -124,6 +124,8 @@ def create_single_sample(background, keywords, negatives):
 
 start_time = time.time()
 [prepare_data(str(i), 30) for i in range(100)]
+# prepare_data(str(29), 50)
+# prepare_data(str(30), 50)
 # for i in range(200):
 #     prepare_data(str(i), 30)
 print('Done create data in ', time.time() - start_time)
