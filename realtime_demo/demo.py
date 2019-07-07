@@ -92,6 +92,7 @@ def callback(data_in, frame_count, time_info, status):
 
     return data_in, pyaudio.paContinue
 
+
 stream = audio_input(callback)
 stream.start_stream()
 t = time.time()

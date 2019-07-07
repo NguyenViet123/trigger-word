@@ -3,6 +3,30 @@ from scipy.io import wavfile
 import os
 from pydub import AudioSegment
 import matplotlib.mlab as m
+import librosa
+import numpy as np
+
+def plot(y, title=""):
+    S = librosa.feature.melspectrogram(y, sr=16000, n_mels=40, n_fft=400, hop_length=160, power=1)
+
+    # Convert to log scale (dB). We'll use the peak power (max) as reference.
+    log_S = librosa.power_to_db(S, ref=np.max)
+
+    # Make a new figure
+    plt.figure(figsize=(12, 4))
+
+    # Display the spectrogram on a mel scale
+    # sample rate and hop length parameters are used to render the time axis
+    librosa.display.specshow(log_S, sr=16000, x_axis='time', y_axis='mel')
+
+    # Put a descriptive title on the plot
+    plt.title(title)
+
+    # draw a color bar
+    plt.colorbar(format='%+02.0f dB')
+
+    # Make the figure layout compact
+    plt.tight_layout()
 
 
 def get_spectrogram(data):
