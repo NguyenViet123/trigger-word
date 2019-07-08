@@ -21,6 +21,7 @@ def model(input_shape):
     X = BatchNormalization()(X)  # Batch normalization
     X = Activation('relu')(X)  # ReLu activation
     X = Dropout(0.8)(X)  # dropout (use 0.8)
+    print(X.shape)
 
     # Step 2: First GRU Layer
     X = GRU(units=128, return_sequences=True)(X)  # GRU (use 128 units and return the sequences)
@@ -39,23 +40,27 @@ def model(input_shape):
     return model
 
 
-import numpy as np
-
-
-def loss(y_true, y_pred):
-    weight = np.zeros_like(y_true)
-    weight = weight * 9
-    return K.mean(
-        K.mean(- weight * y_true * K.log(y_pred + 0.000001) - (1 - y_true + 0.000001) * K.log(1 - y_pred), axis=1))
-
-
-# return loss
+# import numpy as np
+#
+#
+# def loss(y_true, y_pred):
+#     weight = np.zeros_like(y_true)
+#     weight = weight * 9
+#     return K.mean(
+#         K.mean(- weight * y_true * K.log(y_pred + 0.000001) - (1 - y_true + 0.000001) * K.log(1 - y_pred), axis=1))
+#
+#
+# # return loss
+#
+#
+# m = model((5511, 101))
+# m.summary()
+# import keras.loss
+# m.compile(optimizer='adam', loss=loss, metrics=['acc'])
+#
+# # m1 = load_model('../pretrain/tr_model.h5')
+# # m1.summary()
 
 
 m = model((5511, 101))
 m.summary()
-import keras.loss
-m.compile(optimizer='adam', loss=loss, metrics=['acc'])
-
-# m1 = load_model('../pretrain/tr_model.h5')
-# m1.summary()
