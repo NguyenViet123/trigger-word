@@ -6,6 +6,21 @@ import matplotlib.mlab as m
 import librosa
 import numpy as np
 
+
+class MaxSizeList(object):
+    ls = []
+
+    def __init__(self, mx):
+        self.val = mx
+
+    def push(self, st):
+        self.ls.append(st)
+
+    def get_list(self):
+        while len(self.ls) != self.val:
+            self.ls.pop(0)
+        return self.ls
+
 def plot(y, title=""):
     S = librosa.feature.melspectrogram(y, sr=16000, n_mels=40, n_fft=400, hop_length=160, power=1)
 

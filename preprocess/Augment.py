@@ -1,12 +1,12 @@
 import librosa
 import numpy as np
 import matplotlib.pyplot as plt
-
+import time
 
 class AudioAugmentation:
     def read_audio_file(self, file_path):
         input_length = 16000
-        data = librosa.core.load(file_path)[0]
+        data = librosa.core.load(file_path, sr=16000)[0]
         if len(data) > input_length:
             s = int((len(data) - input_length) / 2)
             data = data[s:input_length + s]
@@ -26,13 +26,13 @@ class AudioAugmentation:
 
     def add_noise(self, data):
         noise = np.random.randn(len(data))
-        data_noise = data + 0.005 * noise
+        data_noise = data + 0.006 * noise
         return data_noise
 
     def shift(self, data):
         return np.roll(data, 1600)
 
-    def stretch(self, data, rate=1):
+    def stretch(self, data, rate=0.8):
         input_length = 16000
         data = librosa.effects.time_stretch(data, rate)
         if len(data) > input_length:

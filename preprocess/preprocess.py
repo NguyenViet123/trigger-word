@@ -34,6 +34,17 @@ def prepare_data(idx, n_sample):
     np.save('Y' + idx + '.npy', Y)
 
 
+def export_similar_sound():
+    similar_sound = glob.glob('../data_model2/similar_sound/*')
+    for simi in similar_sound:
+        segment = AudioSegment.from_wav(simi)
+        [segment[1000 * i: 1000 * i + 1000].set_frame_rate(16000).export(
+            '../data_model2/similar_cut/' + str(time.time()) + '.wav', format='wav') for i in range(len(segment) // 1000)]
+
+
+export_similar_sound()
+
+
 def preprocess_audio(file_name):
     padding = AudioSegment.silent(duration=DATA_LEN)
     segment = AudioSegment.from_wav(file_name)[:DATA_LEN]
@@ -121,15 +132,13 @@ def create_single_sample(background, keywords, negatives):
     x = td_utils.graph_spectrogram(f_name)
     return x, y
 
-
-start_time = time.time()
-[prepare_data(str(i), 30) for i in range(100)]
+# start_time = time.time()
+# [prepare_data(str(i), 30) for i in range(100)]
 # prepare_data(str(29), 50)
 # prepare_data(str(30), 50)
 # for i in range(200):
 #     prepare_data(str(i), 30)
-print('Done create data in ', time.time() - start_time)
-
+# print('Done create data in ', time.time() - start_time)
 
 # def load_data(path):
 #     X = np.load('X.npy')
